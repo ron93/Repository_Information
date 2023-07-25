@@ -10,6 +10,7 @@ def get_url(url: str, params: dict = None):
     api_response.raise_for_status()
     return api_response.json()
 
+@flow
 def get_open_issues(repo_name: str, open_issues_count: int, per_page: int = 100):
     issues = []
     pages = range(1, -(open_issues_count // -per_page) +1)
