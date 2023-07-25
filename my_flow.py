@@ -1,8 +1,10 @@
 # my_flow.py
 import httpx
 from prefect import flow, task, get_run_logger
+from prefect.tasks import task_input_hash
+from datetime import timedelta
 
-@task(retries=2)
+@task(retries=3, retry_delay_seconds=5,cache_key_fn=task_input_hash,cache_expiration=timedelta(days=1))
 def get_repo_info(repo_owner:str, repo_name: str):
     """ Get repo info -- will retry twice after failing """
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}"
