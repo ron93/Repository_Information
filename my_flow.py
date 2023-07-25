@@ -21,14 +21,16 @@ def get_contributors(repo_info: dict):
 
 @flow(name="Repo Info",log_prints=True)
 def repo_info(repo_owner: str = "PrefectHQ", repo_name: str = "prefect"):
+    logger = get_run_logger()
     #call `get_repo_info` task
     repo_info = get_repo_info(repo_owner, repo_name)
-    print(f"Stars :{repo_info['stargazers_count']}")
+    logger.info(f"Stars :{repo_info['stargazers_count']}")
 
     # call `get_contributors` task passing upstream results
     contributors = get_contributors(repo_info)
-    print(f"Number of Contributors ; {len(contributors)}")
+    logger.info(f"Number of Contributors ; {len(contributors)}")
 
+    
 if __name__ == '__main__':
     # call a flow function for a local flow run
     repo_info()
